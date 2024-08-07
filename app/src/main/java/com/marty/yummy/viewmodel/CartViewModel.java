@@ -5,9 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.marty.yummy.dbutilities.AppDatabase;
 import com.marty.yummy.model.CartItem;
@@ -103,7 +101,7 @@ public class CartViewModel extends AndroidViewModel {
     }
 
     public void removeItem(String name) {
-        // Ideally, this should be done using a background thread or Coroutines.
+        // Mover la operación a un hilo en segundo plano
         new Thread(() -> {
             db.cartItemDao().deleteCartItem(name);
             ObservableObject.getInstance().updateValue(new Intent(INTENT_UPDATE_LIST));
