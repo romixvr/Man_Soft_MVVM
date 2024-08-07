@@ -1,22 +1,20 @@
 package com.marty.yummy.dbutilities;
 
-
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
+
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 
 import com.marty.yummy.model.CartItem;
 import com.marty.yummy.model.FoodDetails;
 
-
-
 /**
  * Created by Marty on 12/29/2017.
  */
-@Database(entities = {FoodDetails.class, CartItem.class}, version = 2,exportSchema = false)
+@Database(entities = {FoodDetails.class, CartItem.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
-    private static AppDatabase INSTANCE;
+    private static volatile AppDatabase INSTANCE;
 
     public abstract FoodDetailsDao foodDetailsDao();
     public abstract CartItemDao cartItemDao();
@@ -25,7 +23,11 @@ public abstract class AppDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),AppDatabase.class,"yummy").fallbackToDestructiveMigration().allowMainThreadQueries().build();
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                            AppDatabase.class, "yummy")
+                            // Implement appropriate migrations instead of destructive migration
+                            //.fallbackToDestructiveMigration()
+                            .build();
                 }
             }
         }
