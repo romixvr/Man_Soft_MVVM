@@ -21,7 +21,7 @@ public class SaveFoodMenu extends AsyncTask<Void,Void,Void> {
         if(db!=null){
             if(foodDetails!=null && foodDetails.size()>0) {
                 List<String> nameList = new ArrayList<>();
-                for(int i=0;i<foodDetails.size();i++){
+                for (SomeType value : list) {
                     nameList.add(foodDetails.get(i).getName());
                     foodDetails.get(i).setQuantity(db.cartItemDao().getCartCount(foodDetails.get(i).getName()));
                 }
